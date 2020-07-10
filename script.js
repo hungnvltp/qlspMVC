@@ -271,7 +271,7 @@ class View {
         searchs.addEventListener('keyup', event => {
             handler(searchs.value);
             // alert("mày chạy vào ô search chưa");
-            // hanbler();
+            
         })
     }
 }
