@@ -221,7 +221,7 @@ class View {
     bindEditTodo(handler) {
         const edits = document.getElementById("update")
         edits.addEventListener('click', event => {
-            alert('ng dùng vừa bấm vào button "update" ở trên form thì lấy id từ class View, id mà ng dùng muốn update là: ' + this.editId); // truy xuất thuộc thính editId của class.
+            alert(this.editId); // truy xuất thuộc thính editId của class.
             // handler(this.editId) // đến đây thì chuyển id về cho controller để controller gửi vào model xử lý
             //HOẶC:
             // gửi cả form data lên controller để controller gửi vào model xử lý
@@ -262,7 +262,7 @@ class View {
                     document.getElementById('idCompany').value = valueNew.idCompany,
                     document.getElementById('idAge').value = valueNew.idAge
                 this.editId = id  // gán id cho thuộc tính editId của class View
-                alert("đây là id mà người dùng khi bấm vào button edit ở trên bảng: " + this.editId);
+                alert(this.editId);
             }
         })
     }
