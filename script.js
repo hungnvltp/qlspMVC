@@ -3,20 +3,21 @@ class Model {
         var Member = localStorage.getItem('Member') ? JSON.parse(localStorage.getItem('Member')) : [];
 
     }
-    idSubmit() {
-        let idName = document.getElementById('idName').value;
-        let idNumber = document.getElementById('idNumber').value;
-        let idPosition = document.getElementById('idPosition').value
-        let idCompany = document.getElementById('idCompany').value;
-        let idAge = document.getElementById('idAge').value;
+    idSubmit(formdata) {
+
         var Member = localStorage.getItem('Member') ? JSON.parse(localStorage.getItem('Member')) : [];
+
         Member.push({
-            idName: idName,
-            idNumber: idNumber,
-            idPosition: idPosition,
-            idAge: idAge,
-            idCompany: idCompany
+
+            idName: formdata.idName,
+            idNumber: formdata.idNumber,
+            idCompany: formdata.idCompany,
+            idPosition: formdata.idPosition,
+            idAge: formdata.idAge
+
+
         });
+
         localStorage.setItem('Member', JSON.stringify(Member));
         this.callbackFromController();
     }
@@ -54,7 +55,7 @@ class Model {
     }
 }
 class View {
-    constructor(id) {
+    constructor(_id) {
         this.root = document.querySelector("#root");
         this.formDangNhap();
         this.anFormDN();
@@ -70,8 +71,7 @@ class View {
     formDangNhap() {
         this.root = document.querySelector('#root');
         this.formDN = document.createElement('div');
-        this.formDN.innerHTML
-            = ` <form>
+        this.formDN.innerHTML   = ` <form>
          <div id="formLogIn" class="w3-container w3-card-4 w3-light-grey">
             <a href="#" ><img src="anhx.jpg" width="40px" height="40px" id="anh">
             </a>
@@ -198,9 +198,17 @@ class View {
         document.getElementById('formLogIn').style.display = "none";
     }
     addRecord(handler) {
-        this.formDN.addEventListener('submit', event => {
-            console.log("nút submit");
-            handler();
+
+        this.formDN.addEventListener('submit', _event => {
+            alert("tao chuẩn bi thêm dư liêu");
+            var formdata = {
+                idName: document.getElementById('idName').value,
+                idNumber: document.getElementById('idNumber').value,
+                idPosition: document.getElementById('idPosition').value,
+                idCompany: document.getElementById('idCompany').value,
+                idAge: document.getElementById('idAge').value
+            }
+            handler(formdata);
             document.getElementById('idName').value = "";
             document.getElementById('idNumber').value = "";
             document.getElementById('idPosition').value = "";
@@ -221,7 +229,7 @@ class View {
     bindEditTodo(handler) {
         const edits = document.getElementById("update")
         edits.addEventListener('click', event => {
-            alert(this.editId); // truy xuất thuộc thính editId của class.
+            alert(" id đã được update là phần tử số" + this.editId); // truy xuất thuộc thính editId của class.
             // handler(this.editId) // đến đây thì chuyển id về cho controller để controller gửi vào model xử lý
             //HOẶC:
             // gửi cả form data lên controller để controller gửi vào model xử lý
@@ -262,16 +270,16 @@ class View {
                     document.getElementById('idCompany').value = valueNew.idCompany,
                     document.getElementById('idAge').value = valueNew.idAge
                 this.editId = id  // gán id cho thuộc tính editId của class View
-                alert(this.editId);
+                alert("id được chọn để update ở phần tử " + this.editId);
             }
         })
     }
     searchData(handler) {
         const searchs = document.getElementById("timkiem")
-        searchs.addEventListener('keyup', event => {
+        searchs.addEventListener('keyup', _event => {
             handler(searchs.value);
             // alert("mày chạy vào ô search chưa");
-            
+
         })
     }
 }
@@ -288,7 +296,7 @@ class Controller {
         this.view.searchData(this.handlerSearch)
     }
     handleAddRecord = (formdata) => {
-        this.model.idSubmit()
+        this.model.idSubmit(formdata)
     }
     onTodoListChanged = (newData) => {
         this.view.renderListMember(newData)
